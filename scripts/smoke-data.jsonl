@@ -1,0 +1,4 @@
+{"messages":[{"role":"user","content":"请输出一个商品查询参数示例。"},{"role":"assistant","content":"{\"category\":\"键盘\",\"max_price\":300}"}]}
+{"messages":[{"role":"user","content":"商品 A 售价 100 元，库存 0；商品 B 售价 120 元，库存 2。请选择有货的商品。"},{"role":"assistant","content":"商品 B，价格 120 元。"}]}
+{"messages":[{"role":"user","content":"没有任何商品符合预算和库存条件时，应如何回答？"},{"role":"assistant","content":"没有符合条件的商品。"}]}
+{"messages":[{"role":"user","content":"商品 A 售价 100 元，库存 3；商品 B 售价 120 元，库存 2。请选择最便宜的现货。"},{"role":"assistant","content":"商品 A，价格 100 元。"}]}

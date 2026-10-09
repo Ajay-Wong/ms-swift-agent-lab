@@ -1,0 +1,23 @@
+services:
+  trainer:
+    image: ajay/ms-swift:4.5.3-cu130
+    build:
+      context: .
+    container_name: ms-swift-agent
+    gpus: all
+    user: "${LOCAL_UID:-1000}:${LOCAL_GID:-1000}"
+    working_dir: /workspace
+    shm_size: "2gb"
+    stdin_open: true
+    tty: true
+    environment:
+      HOME: /workspace/.home
+      HF_HOME: /workspace/.cache/huggingface
+      MODELSCOPE_CACHE: /workspace/.cache/modelscope
+      TOKENIZERS_PARALLELISM: "false"
+      OMP_NUM_THREADS: "4"
+    volumes:
+      - ${MODELS_DIR:-${HOME}/Models}:/models:ro
+      - ./workspace:/workspace
+      - ./scripts:/opt/agent-scripts:ro
+    command: ["sleep", "infinity"]

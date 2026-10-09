@@ -1,0 +1,26 @@
+# Local configuration and credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Models, training artifacts, caches and downloaded dependencies
+workspace/
+wheels/
+models/
+*.safetensors
+*.pt
+*.pth
+*.ckpt
+__pycache__/
+*.py[cod]
+
+# Machine-specific validation logs
+*-check.txt
+environment-report.txt
+image-id.txt
+model-verification.txt
+versions.txt
+
+.venv*/
