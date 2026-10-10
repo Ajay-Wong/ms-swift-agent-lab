@@ -2,7 +2,7 @@
 
 面向 **RTX 5090 Laptop 24GB** 的纯文本 Agent 训练环境：使用 **Qwen3-1.7B**，先做 LoRA SFT，再接入多轮 GRPO。提供 Docker 配置、依赖修复、模型下载和环境验收脚本。
 
-目前已验证环境、单步 SFT 和 vLLM 推理；完整的商品查询 Agent 数据集、工具环境和奖励函数尚未实现。详见 [验收记录](VALIDATION.md)。
+已包含商品查询 Agent 的工具环境、数据生成、轨迹判定、原始模型/LoRA 评估和正式 SFT 启动脚本。先阅读 [商品查询 Agent 操作指南](docs/shopping-agent.md)。多轮 GRPO 训练器尚未接入。环境验证见 [验收记录](VALIDATION.md)。
 
 | 组件 | 版本 |
 | --- | --- |
@@ -102,7 +102,7 @@ docker compose exec trainer python /opt/agent-scripts/check_vllm.py
 
 ## 后续训练起点
 
-SFT 可从 BF16 LoRA、rank 16、micro batch 1、长度 2048、gradient checkpointing 开始。先构建完整工具调用轨迹，再用训练后的模型接入工具执行环境和结果奖励。
+商品查询示例已提供完整工具调用轨迹生成与 SFT 脚本，默认 BF16 LoRA、rank 16、micro batch 1、长度 2048、gradient checkpointing。具体生成、评估和训练命令见 [操作指南](docs/shopping-agent.md)。
 
 GRPO 建议从短轨迹、低并发的 colocate rollout 开始。验收主机内存约 16GB，不宜依赖大量 CPU offload；正式训练的显存需求需实际测量。
 

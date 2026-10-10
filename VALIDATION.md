@@ -14,5 +14,5 @@
 | vLLM 模型加载、预热、生成、退出 | 通过 |
 
 显存来自短序列、micro batch 1 的验收，不代表正式训练的显存需求。
-尚未进行正式 Agent SFT 或多轮 GRPO；工具环境、轨迹数据和奖励函数需要另行实现。
+商品查询 Agent 的工具、数据生成和结果奖励现已实现，并完成两步 Agent SFT 集成验收。尚未进行全量正式 Agent SFT 或多轮 GRPO 训练；详见 [商品 Agent 验收记录](docs/shopping-validation.md)。
 镜像基线包含完整训练依赖，首次下载约 10.7 GiB，展开后需要更多空间。

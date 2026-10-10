@@ -11,6 +11,7 @@ services:
     stdin_open: true
     tty: true
     environment:
+      PYTHONPATH: /opt/agent-lab
       HOME: /workspace/.home
       HF_HOME: /workspace/.cache/huggingface
       MODELSCOPE_CACHE: /workspace/.cache/modelscope
@@ -20,4 +21,5 @@ services:
       - ${MODELS_DIR:-${HOME}/Models}:/models:ro
       - ./workspace:/workspace
       - ./scripts:/opt/agent-scripts:ro
+      - ./agent_lab:/opt/agent-lab/agent_lab:ro
     command: ["sleep", "infinity"]
