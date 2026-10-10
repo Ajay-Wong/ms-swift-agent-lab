@@ -19,7 +19,7 @@ services:
       OMP_NUM_THREADS: "4"
     volumes:
       - ${MODELS_DIR:-${HOME}/Models}:/models:ro
-      - ./workspace:/workspace
+      - ${TRAIN_DIR:-${HOME}/Train/ms-swift}:/workspace
       - ./scripts:/opt/agent-scripts:ro
       - ./agent_lab:/opt/agent-lab/agent_lab:ro
     command: ["sleep", "infinity"]

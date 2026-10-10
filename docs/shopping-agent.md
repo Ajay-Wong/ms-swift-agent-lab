@@ -27,9 +27,11 @@
 python3 -m unittest discover -s tests -v
 python3 -m agent_lab.shopping.demo --index 4
 python3 -m agent_lab.shopping.generate \
-  --output workspace/shopping/data \
+  --output "${TRAIN_DIR:-$HOME/Train/ms-swift}/shopping/data" \
   --train 1000 --val 200 --test 200 --seed 42
 ```
+
+宿主机默认训练目录为 `$HOME/Train/ms-swift`，本机为 `/home/ajay/Train/ms-swift`，对应容器 `/workspace`。如在 `.env` 中自定义了 `TRAIN_DIR`，运行上面的宿主机命令前也需导出相同的环境变量。
 
 如果同一路径已经生成过数据，命令会拒绝覆盖。复用已有数据即可；确实要重建时，换目录或显式使用 `--overwrite`。
 
@@ -87,7 +89,7 @@ docker exec -it ms-swift-agent bash /opt/agent-scripts/train_shopping_sft.sh
 - micro batch 1，梯度累积 8，上下文 2048，开启 gradient checkpointing。
 - 学习率 1e-4，warmup 比例 0.05；每 50 步评估。`save_steps=0.5` 按总训练步数的 50% 间隔保存（向上取整），默认 250 步时在第 125、250 步保存，保留两个 checkpoint。
 - 修改保存配置只对新启动的训练生效；已经运行的训练和已有 checkpoint 不会自动改变。保留数量限制针对单次训练的版本目录，不会清理其他训练版本。
-- 结果写入 `/workspace/shopping/sft/` 下的版本目录，原始模型只读。
+- 结果写入容器 `/workspace/shopping/sft/` 下的版本目录（宿主机默认 `$HOME/Train/ms-swift/shopping/sft/`），原始模型只读。
 
 训练结束后，记录日志中的 `last_model_checkpoint` 路径。验收脚本 `smoke_sft.sh` 与这里不同：它不会保存模型，不能代替正式训练。
 

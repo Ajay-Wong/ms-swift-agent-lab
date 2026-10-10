@@ -22,7 +22,7 @@ cd ms-swift-agent-lab
 cp .env.example .env
 ```
 
-根据需要修改 `.env`：`MODELS_DIR` 默认为宿主机 `$HOME/Models`，`LOCAL_UID` / `LOCAL_GID` 默认为 1000，可用 `id -u` / `id -g` 查看。本机继续使用 `/home/ajay/Models`。
+根据需要修改 `.env`：`MODELS_DIR` 默认为宿主机 `$HOME/Models`，`TRAIN_DIR` 默认为 `$HOME/Train/ms-swift`，`LOCAL_UID` / `LOCAL_GID` 默认为 1000，可用 `id -u` / `id -g` 查看。本机继续使用 `/home/ajay/Models`。
 
 仓库只保存配置、脚本和文件校验清单，不包含模型权重、Python 安装包、缓存、训练结果或本机日志。
 
@@ -67,7 +67,7 @@ bash scripts/start.sh
 docker exec -it ms-swift-agent bash
 ```
 
-模型以只读方式挂载到 `/models/Qwen3-1.7B`。容器内 `/workspace` 对应仓库下的 `workspace/`，用于保存训练数据、输出与缓存。容器使用配置的普通用户，不开放网络端口。
+模型以只读方式挂载到 `/models/Qwen3-1.7B`。容器内 `/workspace` 对应宿主机 `$HOME/Train/ms-swift`（本机 `/home/ajay/Train/ms-swift`，可通过 `TRAIN_DIR` 修改），用于保存训练数据、输出与缓存。容器使用配置的普通用户，不开放网络端口。
 
 停止容器：
 
@@ -91,7 +91,7 @@ docker compose exec trainer python /opt/agent-scripts/check_vllm.py
 
 - `check_env.py`：依赖版本、GPU BF16 前向和反向运算。
 - `check_model.py`：在内存中添加 LoRA，验证梯度与短文本生成，不修改原始模型。
-- `smoke_sft.sh`：用四条小样本完成一次固定非零学习率的 LoRA 更新，不保存模型权重；日志位于 `workspace/smoke-sft/`。
+- `smoke_sft.sh`：用四条小样本完成一次固定非零学习率的 LoRA 更新，不保存模型权重；日志位于宿主机 `$HOME/Train/ms-swift/smoke-sft/`（自定义时使用 `TRAIN_DIR`）。
 - `check_vllm.py`：短上下文、低并发推理验证，不等同于完整多轮 Agent GRPO 验证。
 
 ## 依赖修复
