@@ -85,7 +85,8 @@ docker exec -it ms-swift-agent bash /opt/agent-scripts/train_shopping_sft.sh
 - 训练 1000 条轨迹，独立验证集 200 条，2 epochs。
 - BF16 LoRA，rank 16，作用于 Q/K/V/O projection。
 - micro batch 1，梯度累积 8，上下文 2048，开启 gradient checkpointing。
-- 学习率 1e-4，warmup 比例 0.05；每 50 步评估和保存，保留两个 checkpoint。
+- 学习率 1e-4，warmup 比例 0.05；每 50 步评估。`save_steps=0.5` 按总训练步数的 50% 间隔保存（向上取整），默认 250 步时在第 125、250 步保存，保留两个 checkpoint。
+- 修改保存配置只对新启动的训练生效；已经运行的训练和已有 checkpoint 不会自动改变。保留数量限制针对单次训练的版本目录，不会清理其他训练版本。
 - 结果写入 `/workspace/shopping/sft/` 下的版本目录，原始模型只读。
 
 训练结束后，记录日志中的 `last_model_checkpoint` 路径。验收脚本 `smoke_sft.sh` 与这里不同：它不会保存模型，不能代替正式训练。

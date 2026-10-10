@@ -36,7 +36,7 @@ swift sft \
   --dataloader_persistent_workers false \
   --dataset_num_proc 1 \
   --save_strategy steps \
-  --save_steps 50 \
+  --save_steps 0.5 \
   --save_total_limit 2 \
   --eval_strategy steps \
   --eval_steps 50 \
